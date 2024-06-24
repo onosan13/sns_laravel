@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Tweet\IndexController;
+use App\Http\Controllers\Tweet\CreateController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,4 +15,5 @@ use App\Http\Controllers\Tweet\IndexController;
 |
 */
 
-Route::get('/tweet', IndexController::class);
+Route::get('/tweet', IndexController::class)->name('tweet.index');
+Route::post('/tweet/create', CreateController::class)->name('tweet.create');
