@@ -7,6 +7,7 @@
 </head>
 <body>
   <h1>つぶやきアプリ</h1>
+@auth
   <div>
     <p>投稿フォーム</p>
     @if(session('feedback.success'))
@@ -23,18 +24,23 @@
       <button>投稿</button>
     </form>
   </div>
+@endauth
   <div>
   @foreach($tweets as $tweet)
     <details>
-      <summary>{{ $tweet->content }}</summary>
-      <div>
-        <a href="{{ route('tweet.update.index', ['tweetId'=>$tweet->id]) }}">編集</a>
-        <form action="{{ route('tweet.delete',['tweetId'=>$tweet->id]) }}" method="post">
-          @csrf
-          @method('DELETE')
-          <button>削除</button>
-        </form>
-      </div>
+      <summary>{{ $tweet->content }} by {{ $tweet->user->name }}</summary>
+      @if(\Illuminate\Support\Facades\Auth::id()===$tweet->user_id)
+        <div>
+          <a href="{{ route('tweet.update.index', ['tweetId'=>$tweet->id]) }}">編集</a>
+          <form action="{{ route('tweet.delete',['tweetId'=>$tweet->id]) }}" method="post">
+            @csrf
+            @method('DELETE')
+            <button>削除</button>
+          </form>
+        </div>
+      @else
+        編集できません
+      @endif
     </details>
   @endforeach
   </div>
